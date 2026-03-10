@@ -1,0 +1,12 @@
+.App-Header{
+    background-color:orange;
+    display:flex;
+    justify-content:space-between;
+    color:white;
+    padding:10px;   
+
+}
+.App-Header li{
+    display:inline-block;
+    margin-right:20px;
+}
