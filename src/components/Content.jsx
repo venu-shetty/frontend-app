@@ -14,7 +14,9 @@ function Content() {
   const fetchProducts = async () => {
     try {
       const res = await axios.get(`${API_URL}/store`);
-      setProducts(res.data);
+      console.log(res.data);
+      setProducts(res.data.products);
+      
     } catch (err) {
       console.log("Failed to load");
     }
