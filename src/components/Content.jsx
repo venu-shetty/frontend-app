@@ -14,9 +14,7 @@ function Content() {
   const fetchProducts = async () => {
     try {
       const res = await axios.get(`${API_URL}/store`);
-      console.log(res.data);
-      setProducts(res.data.products);
-      
+      setProducts(res.data);   // ✅ fix
     } catch (err) {
       console.log("Failed to load");
     }
@@ -42,7 +40,7 @@ function Content() {
             <img src={product.imageUrl} width="300px" alt={product.name} />
             <h3>{product.name}</h3>
             <p>{product.desc}</p>
-            <h4>Price: ${product.price}</h4>
+            <h4>Price: ₹{product.price}</h4>
             <button>Add to Cart</button>
           </div>
         ))}
