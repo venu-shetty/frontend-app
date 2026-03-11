@@ -16,11 +16,10 @@ function Content() {
   const fetchProducts = async () => {
     try {
       const res = await axios.get(`${API_URL}/store`);
-      console.log(res.data); // Debug API response
       setProducts(res.data.products || res.data.data || []);
     } catch (err) {
-      console.error(err);
       setError("Failed to load products");
+      setProducts([]);
     } finally {
       setLoading(false);
     }
@@ -40,14 +39,13 @@ function Content() {
 
       {loading && <p>Loading products...</p>}
       {error && <p>{error}</p>}
-      {!loading && products.length === 0 && <p>No products available</p>}
 
       <div className="row">
         {Array.isArray(products) &&
           products.map((product) => (
-            <div className="box" key={product._id || product.id}>
+            <div className="box" key={product._id}>
               <img
-                src={`${API_URL}/${product.image}`}
+                src={`${API_URL}${product.imageUrl}`}
                 width="300px"
                 alt={product.name}
               />
