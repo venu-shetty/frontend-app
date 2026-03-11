@@ -7,8 +7,6 @@ const API_URL = import.meta.env.VITE_API_URL;
 function Content() {
   const [count, setCount] = useState(0);
   const [products, setProducts] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
 
   const increment = () => setCount(count + 1);
   const decrement = () => setCount(count - 1);
@@ -16,12 +14,9 @@ function Content() {
   const fetchProducts = async () => {
     try {
       const res = await axios.get(`${API_URL}/store`);
-      setProducts(res.data.products || res.data.data || []);
+      setProducts(res.data);
     } catch (err) {
-      setError("Failed to load products");
-      setProducts([]);
-    } finally {
-      setLoading(false);
+      console.log("Failed to load");
     }
   };
 
@@ -32,29 +27,23 @@ function Content() {
   return (
     <div>
       <h3>Products Page</h3>
+
       <button onClick={decrement}>-</button>
       {count}
       <button onClick={increment}>+</button>
+
       <hr />
 
-      {loading && <p>Loading products...</p>}
-      {error && <p>{error}</p>}
-
       <div className="row">
-        {Array.isArray(products) &&
-          products.map((product) => (
-            <div className="box" key={product._id}>
-              <img
-                src={`${API_URL}${product.imageUrl}`}
-                width="300px"
-                alt={product.name}
-              />
-              <h3>{product.name}</h3>
-              <p>{product.desc}</p>
-              <h4>Price: ${product.price}</h4>
-              <button>Add to Cart</button>
-            </div>
-          ))}
+        {products.map((product) => (
+          <div className="box" key={product._id}>
+            <img src={product.imageUrl} width="300px" alt={product.name} />
+            <h3>{product.name}</h3>
+            <p>{product.desc}</p>
+            <h4>Price: ${product.price}</h4>
+            <button>Add to Cart</button>
+          </div>
+        ))}
       </div>
     </div>
   );
