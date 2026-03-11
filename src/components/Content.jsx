@@ -14,7 +14,7 @@ function Content() {
   const fetchProducts = async () => {
     try {
       const res = await axios.get(`${API_URL}/store`);
-      setProducts(res.data);   // ✅ fix
+      setProducts(res.data);   
     } catch (err) {
       console.log("Failed to load");
     }
@@ -37,7 +37,7 @@ function Content() {
       <div className="row">
         {products.map((product) => (
           <div className="box" key={product._id}>
-            <img src={product.imageUrl} width="300px" alt={product.name} />
+           <img src={`${API_URL}${product.imageUrl}`} width="300px" alt={product.name} />
             <h3>{product.name}</h3>
             <p>{product.desc}</p>
             <h4>Price: ₹{product.price}</h4>
