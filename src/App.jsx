@@ -1,18 +1,28 @@
-import Header from './components/Header.jsx';
-import Content from './components/Content.jsx';
-import Footer from './components/Footer.jsx';
-import './components/Header.css';
-import './components/Footer.css';
-import './index.css';
+import Header from "./components/Header";
+import Content from "./components/Content";
+import Footer from "./components/Footer";
+import Login from "./components/Login";
+import Register from "./components/Register";
+import Cart from "./components/Cart";
+import Orders from "./components/Orders";
+
 function App() {
   return (
-  <div>
+    <div>
       <Header />
-      <Content />
-      <Footer />
-  </div>
 
+      <Content />
+
+      <Login />
+
+      <Register />
+
+      <Cart />
+
+      <Orders />
+
+      <Footer />
+    </div>
   );
 }
-
-export default App
+export default App;
