@@ -1,32 +1,56 @@
 import { Link } from "react-router-dom";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { AppContext } from "../App";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+
 function Login() {
-  const { user, setUser } = useContext(AppContext);
+  const { setUser } = useContext(AppContext);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const navigate = useNavigate();
   const API_URL = import.meta.env.VITE_API_URL;
-  const Navigate = useNavigate()
+
   const handleLogin = async () => {
-    const url = API_URL + "/auth/signin";
-    const response = await axios.post(url, user);
-    setUser(response.data)
-    Navigate("/")
+    try {
+      const response = await axios.post(`${API_URL}/auth/signin`, {
+        email,
+        password,
+      });
+
+      // If login successful
+      setUser(response.data);
+      navigate("/"); // Go to home
+    } catch (err) {
+      // If user not found
+      if (err.response && err.response.status === 404) {
+        alert("User not found. Please register first."); // Alert message
+        setEmail("");
+        setPassword("");
+      } else if (err.response && err.response.status === 401) {
+        alert("Invalid password. Try again.");
+      } else {
+        alert("Something went wrong. Try again later.");
+      }
+    }
   };
+
   return (
     <div>
       <h2>Login Page</h2>
       <p>
         <input
           type="text"
-          onChange={(e) => setUser({ ...user, email: e.target.value })}
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
           placeholder="Email"
         />
       </p>
       <p>
         <input
           type="password"
-          onChange={(e) => setUser({ ...user, password: e.target.value })}
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
           placeholder="Password"
         />
       </p>
@@ -34,9 +58,10 @@ function Login() {
         <button onClick={handleLogin}>Login</button>
       </p>
       <p>
-        <Link to="/register">New user register here</Link>
+        <Link to="/register">New user? Register here</Link>
       </p>
     </div>
   );
 }
+
 export default Login;
